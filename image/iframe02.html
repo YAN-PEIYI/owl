@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>iframe</title>
+    
+
+
+    <!-- Bootstrap Core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="agency.css" rel="stylesheet">
+    <style type="text/css">
+   
+#abgne_fade_pic {
+	position: relative;
+	width: 100%;
+	height: 360px;
+	border: 0px solid #ccc;
+}
+
+#abgne_fade_pic a.ad {
+	position: absolute;	/* 讓圖片疊在一起 */
+}
+#abgne_fade_pic .control {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+}
+#abgne_fade_pic .control a {
+	display: inline-block;
+	padding: 3px;
+	margin: 0 3px;
+	width: 16px;
+	color: #fff;
+	background: #d3d3df;
+	text-align: center;
+	font-size: 16px;
+	text-decoration: none;
+}
+#abgne_fade_pic .control a.on {
+	font-weight: bold;
+	color: #fff;
+}
+  
+
+    #page-top #top {
+	padding-bottom: 320px;
+	padding-bottom: 420px;
+}
+    
+ 
+
+    </style>
+    <script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+
+<script type="text/javascript" src="jquery-latest.min.js"></script>
+    <script type="text/javascript">
+
+
+$(function(){
+		var $block = $('#abgne_fade_pic'), 
+			$ad = $block.find('.ad'),
+			showIndex = 0,			// 預設要先顯示那一張
+			fadeOutSpeed = 3000,	// 淡出的速度
+			fadeInSpeed = 3000,		// 淡入的速度
+			defaultZ = 10,			// 預設的 z-index
+			isHover = false,
+			timer, speed = 3000;	// 計時器及輪播切換的速度
+		
+		// 先把其它圖片的變成透明
+		$ad.css({
+			opacity: 0,
+			zIndex: defaultZ - 1
+		}).eq(showIndex).css({
+			opacity: 1,
+			zIndex: defaultZ
+		});
+		
+		// 組出右下的按鈕
+		var str = '';
+		for(var i=0;i<$ad.length;i++){
+			str += '<a href="#">' + (i + 1) + '</a>';
+		}
+		var $controlA = $('#abgne_fade_pic').append($('<div class="control">' + str + '</div>').css('zIndex', defaultZ + 1)).find('.control a');
+
+		// 當按鈕被點選時
+		// 若要變成滑鼠滑入來切換時, 可以把 click 換成 mouseover
+		$controlA.click(function(){
+			// 取得目前點擊的號碼
+			showIndex = $(this).text() * 1 - 1;
+			
+			// 顯示相對應的區域並把其它區域變成透明
+			$ad.eq(showIndex).stop().fadeTo(fadeInSpeed, 1, function(){
+				if(!isHover){
+					// 啟動計時器
+					timer = setTimeout(autoClick, speed + fadeInSpeed);
+				}
+			}).css('zIndex', defaultZ).siblings('a').stop().fadeTo(fadeOutSpeed, 0).css('zIndex', defaultZ - 1);
+			// 讓 a 加上 .on
+			$(this).addClass('on').siblings().removeClass('on');
+
+			return false;
+		}).focus(function(){
+			$(this).blur();
+		}).eq(showIndex).addClass('on');
+
+		$block.hover(function(){
+			isHover = true;
+			// 停止計時器
+			clearTimeout(timer);
+		}, function(){
+			isHover = false;
+			// 啟動計時器
+			timer = setTimeout(autoClick, speed);
+		})
+		
+		// 自動點擊下一個
+		function autoClick(){
+			if(isHover) return;
+			showIndex = (showIndex + 1) % $controlA.length;
+			$controlA.eq(showIndex).mouseover();
+		}
+		
+		// 啟動計時器
+		timer = setTimeout(autoClick, speed);
+	});
+
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+</script>
+</head>
+
+<body id="page-top" class="index">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display --><!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              <ul class="nav navbar-nav navbar-right">
+                   
+                    
+                  <li>
+                        <a class="page-scroll" style="color:#FFF;" href="#top">Story</a>
+                </li>
+                    <li>
+                        <a class="page-scroll" style="color:#FFF;" href="#boardgame">Map</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" style="color:#FFF;" href="#rule">Photo</a>
+                    </li>                    
+                    
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+
+    <!-- Header -->
+   
+
+    <!-- Services Section -->
+    <section id="top" class="bg-image"><table width="100%" height="5%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th align="center" scope="col"><font size="+6" color="#c4c5ca">&nbsp;&nbsp;&nbsp;&nbsp; Story
+</font></th>
+  </tr>
+</table>
+
+<div id="table_bg"><table width="30%" border="0" cellspacing="0" cellpadding="0" align="right">
+  <tr>
+    <th align="right" valign="bottom" scope="col"><font size="+1" color="#ffffff">致<br>拾捌公里長的思念<br>
+老去的青春<br>
+噢 還有一個人<br>
+旅行的寂寞</font><br>
+<br><font size="3" color="#ffffff">———寫於無憶之晨</font></th>
+  </tr>
+</table></div>
+
+</section>
+    <section id="boardgame"><table width="100%" height="5%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th align="center" scope="col"><font size="+6" color="#c4c5ca">&nbsp;&nbsp;&nbsp;&nbsp; Map
+</font></th>
+  </tr>
+</table><iframe src="https://www.google.com/maps/embed?pb=!1m27!1m12!1m3!1d14616.39028207942!2d120.48061072992245!3d23.672468485493813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m12!1i0!3e2!4m5!1s0x346ec83a999d15b1%3A0xccb8faecc02b4083!2z5paX5YWt54Gr6LuK56uZ!3m2!1d23.711792!2d120.54117!4m3!3m2!1d23.6748947!2d120.3871504!5e0!3m2!1szh-TW!2stw!4v1417048214722" width="100%" height="430px" frameborder="0" style="border:0"></iframe></section>
+    <section id="rule"><table width="100%" height="5%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th align="center" scope="col"><font size="+6" color="#c4c5ca">&nbsp;&nbsp;&nbsp;&nbsp;
+Photo</font></th>
+  </tr>
+</table>
+<div id="abgne_fade_pic"> 
+		<a class="ad"><img src="21.jpg"/></a>
+        <a class="ad"><img src="22.jpg"/></a>
+        <a class="ad"><img src="23.jpg"/></a>
+         <a class="ad"><img src="24.jpg"/></a>
+         
+        </div></section>
+<footer class="bg-light-gray"></footer>
+  
+
+    
+  
+    <script src="classie.js"></script>
+    <script src="cbpAnimatedHeader.js"></script>
+    
+
+
+
+
+
+</body>
+
+</html>
